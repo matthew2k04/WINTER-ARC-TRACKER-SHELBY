@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>By Order of The Peaky Blinders — Prep Dashboard</title>
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icons/icon-192.png">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<meta name="theme-color" content="#c89b3c">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coal:#0a0804;
+  --soot:#141210;
+  --soot2:#1c1915;
+  --soot3:#252220;
+  --border:#2e2a26;
+  --gold:#c9a84c;
+  --gold-dim:#8b6e30;
+  --amber:#a0721e;
+  --blood:#7a1818;
+  --smoke:#6b6560;
+  --cream:#e8d5b0;
+  --cream-dim:#a89878;
+  --text:#d4c4a8;
+  --text-bright:#ede0c4;
+  --green:#4a8c5c;
+  --green-bright:#5db870;
+  --red:#c0392b;
+  --muted:#5a5450;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--coal);
+  color:var(--text);
+  display:flex;
+  min-height:100vh;
+}
+
+/* ── SIDEBAR ─────────────────────────────── */
+.sidebar{
+  width:240px;
+  min-height:100vh;
+  background:var(--soot);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  position:fixed;
+  top:0;left:0;
+  z-index:100;
+  overflow-y:auto;
+}
+.sb-brand{
+  padding:22px 18px 16px;
+  border-bottom:1px solid var(--border);
+}
+.sb-brand .razor{
+  width:36px;height:3px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  margin-bottom:10px;
+}
+.sb-brand .title{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;
+  color:var(--gold);
+  letter-spacing:.04em;
+  line-height:1.25;
+}
+.sb-brand .sub{font-size:0.68rem;color:var(--smoke);margin-top:3px;letter-spacing:.06em;text-transform:uppercase;}
+
+.sb-profile{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+}
+.sb-avatar{
+  width:36px;height:36px;border-radius:4px;
+  background:linear-gradient(135deg,var(--amber),var(--blood));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;
+  color:var(--cream);flex-shrink:0;
+  border:1px solid var(--gold-dim);
+}
+.sb-profile .pname{
+  font-size:0.85rem;font-weight:600;color:var(--cream);
+  outline:none;cursor:text;
+}
+.sb-profile .prole{font-size:0.68rem;color:var(--smoke);margin-top:2px;}
+
+nav{padding:12px 10px;flex:1;}
+.nav-section{font-size:0.62rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding:10px 8px 4px;}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:4px;
+  font-size:0.82rem;color:var(--smoke);
+  cursor:pointer;transition:all .15s;
+  border-left:2px solid transparent;
+  margin-bottom:1px;
+  text-decoration:none;
+}
+.nav-item .ni{font-size:1rem;width:20px;text-align:center;}
+.nav-item:hover{background:var(--soot2);color:var(--cream-dim);}
+.nav-item.active{
+  background:var(--soot2);color:var(--gold);
+  border-left-color:var(--gold);
+}
+
+.sb-quote{
+  padding:14px 16px;
+  border-top:1px solid var(--border);
+  font-size:0.75rem;
+  color:var(--smoke);
+  font-style:italic;
+  line-height:1.5;
+}
+.sb-quote span{display:block;color:var(--gold-dim);margin-top:4px;font-size:0.68rem;}
+.sb-credit{
+  padding:10px 16px 16px;
+  font-size:0.65rem;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--muted);
+  text-align:center;
+}
+.sb-credit span{color:var(--gold-dim);}
+
+/* ── MAIN ─────────────────────────────── */
+.main{
+  margin-left:240px;
+  flex:1;
+  min-height:100vh;
+  overflow-y:auto;
+}
+
+/* ── TOPBAR ─────────────────────────────── */
+.topbar{
+  background:var(--soot);
+  border-bottom:1px solid var(--border);
+  padding:18px 28px;
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:50;
+}
+.topbar-left h1{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;color:var(--cream);font-weight:700;
+}
+.topbar-left .greeting-sub{font-size:0.8rem;color:var(--smoke);margin-top:2px;}
+.topbar-right{text-align:right;}
+.back-link{
+  display:inline-block;
+  font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid var(--gold-dim);
+  padding:6px 12px;white-space:nowrap;margin-bottom:8px;
+}
+.back-link:hover{border-color:var(--gold);background:rgba(201,168,76,0.08);}
+.clock-time{font-family:'IBM Plex Mono',monospace;font-size:1.3rem;color:var(--gold);font-weight:600;}
+.clock-date{font-size:0.72rem;color:var(--smoke);margin-top:2px;}
+
+/* ── SECTIONS ─────────────────────────────── */
+.content{padding:24px 28px 80px;}
+.section{margin-bottom:40px;}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;color:var(--gold);
+  display:flex;align-items:center;gap:10px;
+  padding-bottom:10px;
+  margin-bottom:16px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.section-title::after{
+  content:'';position:absolute;bottom:-1px;left:0;
+  width:60px;height:1px;background:var(--gold);
+}
+
+/* ── CARDS ─────────────────────────────── */
+.card{
+  background:var(--soot2);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:18px;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+}
+.card-title{
+  font-family:'Playfair Display',serif;
+  font-size:0.88rem;color:var(--cream);
+  margin-bottom:14px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-title .ct-right{color:var(--smoke);font-family:'Inter',sans-serif;font-size:0.75rem;font-weight:400;}
+
+/* ── STAT ROW ─────────────────────────────── */
+.stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{
+  background:var(--soot2);border:1px solid var(--border);border-radius:4px;
+  padding:14px;position:relative;overflow:hidden;cursor:pointer;
+}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold-dim),transparent);}
+.stat-card .st-label{font-size:0.68rem;color:var(--smoke);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+.stat-card .st-val{font-family:'IBM Plex Mono',monospace;font-size:1.4rem;font-weight:600;color:var(--cream);}
+.stat-card .st-val small{font-size:0.75rem;color:var(--smoke);font-weight:400;}
+.stat-card .st-bar{height:3px;background:var(--border);border-radius:2px;margin-top:10px;}
+.stat-card .st-bar i{display:block;height:100%;border-radius:2px;transition:width .4s;}
+.st-icon{font-size:1.1rem;margin-bottom:6px;}
+
+/* ── GRID LAYOUTS ─────────────────────────── */
+.grid-2{display:grid;grid-template-columns:3fr 2fr;gap:14px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.grid-2-1{display:grid;grid-template-columns:2fr 1fr;gap:14px;}
+.grid-equal{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* ── SCHEDULE ─────────────────────────────── */
+.sched-row{
+  display:grid;grid-template-columns:100px 1fr 28px;
+  align-items:center;gap:10px;
+  padding:8px 0;
+  border-bottom:1px solid var(--border);
+  font-size:0.82rem;
+}
+.sched-row:last-child{border-bottom:none;}
+.sched-time{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--gold-dim);}
+.sched-label{color:var(--text);outline:none;cursor:text;}
+.sched-row input[type=checkbox]{accent-color:var(--gold);width:14px;height:14px;cursor:pointer;}
+
+/* ── PRIORITIES ─────────────────────────── */
+.pri-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.83rem;}
+.pri-row:last-child{border-bottom:none;}
+.pri-dot{width:7px;height:7px;border-radius:1px;flex-shrink:0;}
+.pri-row input[type=checkbox]{accent-color:var(--gold);width:14px;height:14px;cursor:pointer;}
+.pri-text{flex:1;outline:none;cursor:text;color:var(--text);}
+.pri-text.done{text-decoration:line-through;color:var(--muted);}
+
+/* ── DONUT ─────────────────────────────── */
+.donut-wrap{display:flex;align-items:center;gap:18px;}
+.donut{border-radius:50%;position:relative;flex-shrink:0;}
+.donut .hole{
+  position:absolute;inset:14px;
+  background:var(--soot2);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:0.7rem;color:var(--gold);
+  text-align:center;line-height:1.3;
+}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:0.75rem;margin-bottom:6px;}
+.legend-dot{width:8px;height:8px;border-radius:1px;flex-shrink:0;}
+.legend-pct{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--smoke);}
+
+/* ── HABITS ─────────────────────────────── */
+.habit-table{width:100%;border-collapse:collapse;font-size:0.78rem;}
+.habit-table th{color:var(--smoke);font-size:0.7rem;padding:4px;text-align:center;}
+.habit-table th:first-child{text-align:left;}
+.habit-table td{padding:6px 4px;text-align:center;}
+.habit-table td:first-child{text-align:left;color:var(--text);}
+.hchk{
+  width:22px;height:22px;border-radius:2px;border:1px solid var(--border);
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;color:transparent;font-size:0.75rem;
+  transition:all .15s;
+}
+.hchk.on{background:var(--gold);border-color:var(--gold);color:var(--coal);}
+.today-col{color:var(--gold) !important;}
+
+/* ── COURSE ─────────────────────────────── */
+.course-row{display:grid;grid-template-columns:70px 1fr 50px;align-items:center;gap:10px;font-size:0.8rem;padding:7px 0;border-bottom:1px solid var(--border);}
+.course-row:last-child{border-bottom:none;}
+.prog-bar{height:5px;background:var(--border);border-radius:2px;overflow:hidden;}
+.prog-bar i{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));transition:width .4s;}
+
+/* ── SQL ─────────────────────────────── */
+.sql-btn{
+  background:var(--soot3);border:1px solid var(--border);
+  color:var(--text);padding:4px 10px;border-radius:3px;
+  font-size:0.72rem;cursor:pointer;font-family:'IBM Plex Mono',monospace;
+}
+.sql-btn:hover{border-color:var(--gold-dim);color:var(--gold);}
+.sql-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.82rem;}
+.sql-row:last-child{border-bottom:none;}
+
+/* ── APPS ─────────────────────────────── */
+.app-stat{background:var(--soot3);border:1px solid var(--border);border-radius:4px;padding:12px;}
+.app-stat .an{font-family:'IBM Plex Mono',monospace;font-size:1.4rem;font-weight:600;}
+.app-stat .al{font-size:0.72rem;color:var(--smoke);margin-top:2px;}
+.app-btns{display:flex;gap:5px;margin-top:8px;}
+.app-btns button{background:var(--border);border:none;color:var(--text);width:24px;height:24px;border-radius:3px;cursor:pointer;font-size:0.85rem;}
+.app-btns button:hover{background:var(--gold-dim);color:var(--coal);}
+
+/* ── APTITUDE ─────────────────────────── */
+.apt-topic{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.82rem;}
+.apt-topic:last-child{border-bottom:none;}
+.apt-topic input[type=checkbox]{accent-color:var(--gold);}
+.apt-score{font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--gold-dim);}
+.apt-bump{background:var(--soot3);border:1px solid var(--border);color:var(--text);padding:2px 8px;border-radius:3px;font-size:0.7rem;cursor:pointer;}
+.apt-bump:hover{border-color:var(--gold-dim);color:var(--gold);}
+
+/* ── SPEAKING ─────────────────────────── */
+.spk-day{background:var(--soot3);border:1px solid var(--border);border-radius:4px;padding:10px;text-align:center;}
+.spk-day .sd-num{font-size:0.72rem;color:var(--smoke);margin-bottom:4px;}
+.spk-day .sd-chk{font-size:1.1rem;cursor:pointer;}
+.spk-day.done{border-color:var(--gold-dim);}
+.spk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+
+/* ── PROJECTS ─────────────────────────── */
+.proj-card{background:var(--soot3);border:1px solid var(--border);border-radius:4px;padding:14px;}
+.proj-card .proj-name{font-family:'Playfair Display',serif;font-size:0.9rem;color:var(--cream);margin-bottom:6px;}
+.proj-card .proj-status{font-size:0.7rem;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+.proj-card .proj-desc{font-size:0.78rem;color:var(--smoke);line-height:1.5;}
+.status-ip{background:rgba(201,168,76,.15);color:var(--gold);}
+.status-done{background:rgba(74,140,92,.15);color:var(--green-bright);}
+.status-plan{background:rgba(107,101,96,.15);color:var(--smoke);}
+
+/* ── NOTES ─────────────────────────────── */
+.notes-area{
+  width:100%;min-height:160px;
+  background:var(--soot3);border:1px solid var(--border);border-radius:4px;
+  color:var(--text);font-family:'Inter',sans-serif;font-size:0.83rem;
+  padding:12px;resize:vertical;outline:none;line-height:1.6;
+}
+.notes-area::placeholder{color:var(--muted);}
+
+/* ── RESOURCES ─────────────────────────── */
+.res-link{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;background:var(--soot3);border:1px solid var(--border);
+  border-radius:4px;margin-bottom:6px;font-size:0.83rem;
+  text-decoration:none;color:var(--text);transition:border-color .15s;
+}
+.res-link:hover{border-color:var(--gold-dim);color:var(--gold);}
+.res-link .rl-ico{font-size:1rem;width:22px;text-align:center;}
+
+/* ── WEEK PLAN ─────────────────────────── */
+.week-row{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.82rem;}
+.week-row:last-child{border-bottom:none;}
+.week-day{font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--gold);width:34px;flex-shrink:0;}
+
+/* ── GOALS ─────────────────────────────── */
+.goal-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.83rem;}
+.goal-row:last-child{border-bottom:none;}
+.goal-row input[type=checkbox]{accent-color:var(--gold);}
+.goal-text{flex:1;outline:none;cursor:text;}
+.goal-tag{font-size:0.67rem;padding:2px 8px;border-radius:12px;background:rgba(201,168,76,.12);color:var(--gold);flex-shrink:0;}
+
+/* ── MONTHLY CALENDAR ─────────────────── */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:0.78rem;}
+.cal-grid .ch{color:var(--smoke);font-weight:600;padding:4px 0;font-size:0.7rem;}
+.cal-grid .cd{padding:6px 0;border-radius:3px;color:var(--smoke);}
+.cal-grid .cd.today{background:var(--gold);color:var(--coal);font-weight:700;}
+.cal-grid .cd.has-log{border-bottom:2px solid var(--gold-dim);}
+.cal-grid .cd.dim{opacity:.25;}
+
+/* ── SAVE MSG ─────────────────────────── */
+.save-toast{
+  position:fixed;bottom:20px;right:20px;
+  background:var(--gold);color:var(--coal);
+  padding:8px 16px;border-radius:3px;
+  font-size:0.78rem;font-weight:600;
+  font-family:'IBM Plex Mono',monospace;
+  letter-spacing:.05em;
+  opacity:0;transition:opacity .3s;
+  z-index:999;
+}
+.save-toast.show{opacity:1;}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .main{margin-left:0;}
+  .stat-grid{grid-template-columns:repeat(2,1fr);}
+  .grid-2,.grid-2-1,.grid-3,.grid-equal{grid-template-columns:1fr;}
+  .content{padding:16px 14px 80px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="razor"></div>
+    <div class="title">By Order of The<br>Peaky Blinders</div>
+    <div class="sub">Winter Arc · Oct–Dec 2026</div>
+  </div>
+  <div class="sb-profile">
+    <div class="sb-avatar" id="avatarLetter">?</div>
+    <div>
+      <div class="pname" id="sbName" contenteditable="true" spellcheck="false">Your Name</div>
+      <div class="prole">Data Analyst Aspirant</div>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-section">Operations</div>
+    <a class="nav-item active" href="#sec-dashboard" onclick="setActive(this)">
+      <span class="ni">🗡️</span> Dashboard
+    </a>
+    <a class="nav-item" href="#sec-planner" onclick="setActive(this)">
+      <span class="ni">📅</span> Daily Planner
+    </a>
+    <a class="nav-item" href="#sec-study" onclick="setActive(this)">
+      <span class="ni">📜</span> Habit Tracker
+    </a>
+    <a class="nav-item" href="#sec-course" onclick="setActive(this)">
+      <span class="ni">🎓</span> Learning Tracker
+    </a>
+    <div class="nav-section">Skill Sharpening</div>
+    <a class="nav-item" href="#sec-aptitude" onclick="setActive(this)">
+      <span class="ni">🔢</span> Interview Prep
+    </a>
+    <a class="nav-item" href="#sec-speaking" onclick="setActive(this)">
+      <span class="ni">🎙️</span> Arc Streak
+    </a>
+    <div class="nav-section">Intelligence</div>
+    <a class="nav-item" href="#sec-roadmap" onclick="setActive(this)">
+      <span class="ni">🗺️</span> Roadmap
+    </a>
+    <a class="nav-item" href="#sec-jobs" onclick="setActive(this)">
+      <span class="ni">💼</span> Job Applications
+    </a>
+    <a class="nav-item" href="#sec-projects" onclick="setActive(this)">
+      <span class="ni">⚙️</span> Projects
+    </a>
+    <a class="nav-item" href="#sec-notes" onclick="setActive(this)">
+      <span class="ni">🗒️</span> Notes
+    </a>
+    <a class="nav-item" href="#sec-resources" onclick="setActive(this)">
+      <span class="ni">🔗</span> Resources
+    </a>
+  </nav>
+  <div class="sb-quote">
+    "He who is not courageous enough to take risks will accomplish nothing in life."
+    <span>— Tommy Shelby</span>
+  </div>
+  <div class="sb-credit">Developed by <span>YOGZ</span></div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1 id="greetingH">Good Morning 🥃</h1>
+      <div class="greeting-sub" id="arcSub">Stay sharp. The job's yours — go and take it.</div>
+    </div>
+    <div class="topbar-right">
+      <a class="back-link" href="../index.html">← Back to Tracker</a>
+      <div class="clock-time" id="clockTime">--:--</div>
+      <div class="clock-date" id="clockDate">--</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══ DASHBOARD ══ -->
+    <section id="sec-dashboard" class="section">
+      <div class="section-title">🗡️ Command Overview</div>
+      <div class="stat-grid" id="statGrid"></div>
+      <div class="grid-equal">
+        <div class="card">
+          <div class="card-title">🏆 Today's Priorities <span class="ct-right" id="priDate"></span></div>
+          <div id="prioritiesList"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🗓️ Weekly Battle Plan</div>
+          <div id="weekPlan"></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px;">
+        <div class="card-title">🥊 Workout &amp; Cardio Split</div>
+        <div id="workoutPlan"></div>
+        <div id="cardioNote" style="margin-top:10px;font-size:0.78rem;color:var(--smoke);line-height:1.5;"></div>
+      </div>
+    </section>
+
+    <!-- ══ DAILY PLANNER ══ -->
+    <section id="sec-planner" class="section">
+      <div class="section-title">📅 Daily Planner</div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Schedule <span class="ct-right" id="plannerDay"></span></div>
+          <div id="scheduleList"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Focus Allocation</div>
+          <div class="donut-wrap">
+            <div class="donut" id="focusDonut" style="width:130px;height:130px;">
+              <div class="hole">FOCUS<br>TIME</div>
+            </div>
+            <div id="focusLegend"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ STUDY TRACKER ══ -->
+    <section id="sec-study" class="section">
+      <div class="section-title">📜 Habit Tracker</div>
+      <div class="grid-2-1">
+        <div class="card">
+          <div class="card-title">✅ Weekly Habit Tracker <span class="ct-right">3 non-negotiables: apply · learn · workout</span></div>
+          <table class="habit-table" id="habitTable"></table>
+        </div>
+        <div class="card">
+          <div class="card-title">📆 Monthly Log</div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ COURSE TRACKER ══ -->
+    <section id="sec-course" class="section">
+      <div class="section-title">🎓 Learning Tracker — Bootcamp + PL-300</div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Skill Hours Progress</div>
+          <div id="courseList"></div>
+          <div style="margin-top:14px;">
+            <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--smoke);margin-bottom:4px;">
+              <span>Overall Progress</span><span id="courseOverallPct" style="font-family:'IBM Plex Mono',monospace;color:var(--gold);">0%</span>
+            </div>
+            <div class="prog-bar"><i id="courseOverallBar" style="width:0%"></i></div>
+          </div>
+          <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;" id="courseBumps"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🗄️ SQL Practice</div>
+          <div class="donut-wrap" style="flex-direction:column;align-items:center;">
+            <div class="donut" id="sqlDonut" style="width:120px;height:120px;align-self:center;">
+              <div class="hole" id="sqlHole">0<br><span style="font-size:0.6rem;font-family:Inter">Solved</span></div>
+            </div>
+            <div id="sqlLegend" style="width:100%;margin-top:12px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ APTITUDE ══ -->
+    <section id="sec-aptitude" class="section">
+      <div class="section-title">🔢 Interview &amp; Stats Prep</div>
+      <div class="grid-equal">
+        <div class="card">
+          <div class="card-title">Topic Progress</div>
+          <div id="aptTopics"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Mock Interview Scores</div>
+          <div id="aptScores"></div>
+          <button onclick="logAptScore()" style="margin-top:12px;background:var(--soot3);border:1px solid var(--gold-dim);color:var(--gold);padding:7px 14px;border-radius:3px;cursor:pointer;font-size:0.8rem;width:100%;">+ Log Mock Interview Score</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SPEAKING ══ -->
+    <section id="sec-speaking" class="section">
+      <div class="section-title">🎙️ Winter Arc Streak &amp; Speaking</div>
+      <div class="grid-equal">
+        <div class="card">
+          <div class="card-title">92-Day Arc Streak <span class="ct-right">Oct 1 → Dec 31</span></div>
+          <div id="speakingGrid" class="spk-grid"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Daily Speaking Practice</div>
+          <div id="speakingChecks"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ ROADMAP ══ -->
+    <section id="sec-roadmap" class="section">
+      <div class="section-title">🗺️ Winter Arc Roadmap</div>
+      <div class="grid-3" id="roadmapGrid"></div>
+      <div class="card" style="margin-top:14px;">
+        <div class="card-title">🎯 Weekly Targets <span class="ct-right">review every Sunday</span></div>
+        <div id="weeklyTargets"></div>
+      </div>
+    </section>
+
+    <!-- ══ JOBS ══ -->
+    <section id="sec-jobs" class="section">
+      <div class="section-title">💼 Job Applications</div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">Application Funnel <span class="ct-right">5–10 / week</span></div>
+          <div class="grid-equal" id="appsGrid"></div>
+        </div>
+        <div class="card" style="grid-column:span 2;">
+          <div class="card-title">Recent Applications</div>
+          <div id="appLog"></div>
+          <button onclick="logApp()" style="margin-top:10px;background:var(--soot3);border:1px solid var(--gold-dim);color:var(--gold);padding:7px 14px;border-radius:3px;cursor:pointer;font-size:0.8rem;width:100%;">+ Log Application</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PROJECTS ══ -->
+    <section id="sec-projects" class="section">
+      <div class="section-title">⚙️ Projects</div>
+      <div class="grid-3" id="projectsGrid"></div>
+    </section>
+
+    <!-- ══ NOTES ══ -->
+    <section id="sec-notes" class="section">
+      <div class="section-title">🗒️ Notes</div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">Today's Notes</div>
+          <textarea class="notes-area" id="notesToday" placeholder="Jot down what you learned today, doubts, insights... (end of day: what I did, what's next)" oninput="saveNotes()"></textarea>
+        </div>
+        <div class="card">
+          <div class="card-title">Interview Q&A Bank</div>
+          <textarea class="notes-area" id="notesQA" placeholder="Write down interview questions and your answers here..." oninput="saveNotes()"></textarea>
+        </div>
+        <div class="card">
+          <div class="card-title">Sunday Weekly Review</div>
+          <textarea class="notes-area" id="notesReview" placeholder="Applications sent, interviews done, projects shipped, workouts completed. What didn't work? Plan for next week..." oninput="saveNotes()"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ RESOURCES ══ -->
+    <section id="sec-resources" class="section">
+      <div class="section-title">🔗 Resources</div>
+      <div class="grid-equal">
+        <div class="card">
+          <div class="card-title">Course & Practice</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=cnjhHZNJEDk" target="_blank"><span class="rl-ico">🎥</span> Alex The Analyst — 30-Hr Bootcamp</a>
+          <a class="res-link" href="https://www.stratascratch.com/" target="_blank"><span class="rl-ico">🗄️</span> StrataScratch — SQL Practice</a>
+          <a class="res-link" href="https://leetcode.com/problemset/database/" target="_blank"><span class="rl-ico">💻</span> LeetCode — SQL Problems</a>
+          <a class="res-link" href="https://www.kaggle.com/" target="_blank"><span class="rl-ico">📊</span> Kaggle — Datasets</a>
+          <a class="res-link" href="https://public.tableau.com/" target="_blank"><span class="rl-ico">📈</span> Tableau Public</a>
+        </div>
+        <div class="card">
+          <div class="card-title">Interview, Cert & Jobs</div>
+          <a class="res-link" href="https://mode.com/sql-tutorial" target="_blank"><span class="rl-ico">🗄️</span> Mode — SQL Tutorial</a>
+          <a class="res-link" href="https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/" target="_blank"><span class="rl-ico">🎓</span> Microsoft Learn — PL-300</a>
+          <a class="res-link" href="https://www.naukri.com/" target="_blank"><span class="rl-ico">💼</span> Naukri — Job Search</a>
+          <a class="res-link" href="https://www.linkedin.com/jobs/" target="_blank"><span class="rl-ico">🔵</span> LinkedIn Jobs</a>
+          <a class="res-link" href="https://internshala.com/" target="_blank"><span class="rl-ico">🎯</span> Internshala</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<div class="save-toast" id="saveToast">⚡ Saved</div>
+<script src="../js/db.js"></script>
+
+<script>
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+const PLAN_ID = "winter-arc-2026";
+function defaultPriorities(){
+  return [
+    {t:"SQL practice — 1 hour", done:false},
+    {t:"Deep work block — 3 hrs (project / dashboard / cert)", done:false},
+    {t:"Send applications + tailor resume", done:false},
+    {t:"Workout + 8k steps", done:false},
+    {t:"Mock interview / answer questions out loud", done:false},
+    {t:"Read 10 pages + journal 5 min", done:false},
+  ];
+}
+let S = {
+  name: "Your Name",
+  studyHours: 0,
+  schedChecks: {},
+  plan: PLAN_ID,
+  priorities: defaultPriorities(),
+  habits:{},
+  courseDone:{},
+  sql:{easy:0,medium:0,hard:0},
+  apps:{applied:0,interview:0,assessment:0,offer:0,outreach:0,mock:0},
+  roadmap:{},
+  notesReview:"",
+  appLog:[],
+  aptTopics:{},
+  aptScores:[],
+  speaking:{},
+  notesToday:"",
+  notesQA:"",
+  studyLog:[],
+  goals:[
+    "Land a Data Analyst role",
+    "Ship 2–3 portfolio projects with clean READMEs",
+    "Clear PL-300 (Power BI) certification",
+    "Apply to 5–10 roles every week",
+    "Train 5 days a week, 8–10k steps daily",
+  ],
+};
+
+/* ══════════════════════════════════════════
+   STATIC DATA
+══════════════════════════════════════════ */
+const SCHEDULE = [
+  ["05:30–06:00","☀️ Wake up — water, sunlight, stretch (no phone)"],
+  ["06:00–07:00","🏋️ Gym / boxing (per split)"],
+  ["07:00–08:00","🍳 Breakfast & get ready"],
+  ["08:00–09:00","🗄️ SQL practice (1 hr, every day)"],
+  ["09:00–12:00","🎯 Deep work — project, dashboard or cert study (no phone)"],
+  ["12:00–01:00","🍱 Lunch + walk"],
+  ["01:00–03:00","💼 Applications, LinkedIn outreach, resume tailoring"],
+  ["03:00–04:00","📊 Stats / Excel topic, or mock interview"],
+  ["04:00–06:00","🚶 Free time, errands, second walk (8–10k steps)"],
+  ["06:00–09:00","📖 Dinner, reading (10 pages), hobby, family & friends"],
+  ["09:30–10:00","📝 Journal (5 min), plan tomorrow — no phone after 10"],
+];
+
+const FOCUS_SEG = [
+  {l:"Learning / Cert",pct:25,c:"#4d9fff"},
+  {l:"SQL Practice",pct:15,c:"#5db870"},
+  {l:"Project",pct:25,c:"#c9a84c"},
+  {l:"Interview Prep",pct:10,c:"#f0a940"},
+  {l:"Speaking",pct:5,c:"#8b7cf6"},
+  {l:"Applications",pct:20,c:"#e05a5a"},
+];
+
+const COURSE_SKILLS = [
+  {n:"SQL",  hrs:4.2, ts:"0:48:33–5:01:47"},
+  {n:"Excel",hrs:2.8, ts:"5:01:47–7:49:33"},
+  {n:"Tableau",hrs:1.6,ts:"7:49:33–9:25:51"},
+  {n:"Power BI",hrs:2.2,ts:"9:25:51–11:37:51"},
+  {n:"Python",hrs:2.9,ts:"11:37:51–14:32:33"},
+  {n:"Pandas",hrs:4.3,ts:"14:32:33–18:52:39"},
+  {n:"Stats",hrs:6,ts:"Hypothesis testing + A/B testing"},
+  {n:"PL-300",hrs:15,ts:"Power BI certification prep"},
+];
+
+const HABITS = ["Wake 5:30–6:30","SQL Practice (1 hr)","Deep Work (3+ hrs)","Apply to Jobs","Workout / Boxing","Read 10 Pages","Journal (5 min)","No Doomscroll"];
+const DAY_LETTERS = ["M","T","W","T","F","S","S"];
+const WEEK_PLAN = [
+  ["MON","SQL + Applications + Project"],
+  ["TUE","Stats / Excel topic + Applications"],
+  ["WED","Power BI / Tableau dashboard + Project"],
+  ["THU","Mock Interview + Applications"],
+  ["FRI","Project + LinkedIn Outreach (5 msgs)"],
+  ["SAT","Mock Interview + Cert Study"],
+  ["SUN","Weekly Review + Plan Next Week"],
+];
+const WORKOUT_PLAN = [
+  ["MON","Chest — 10–15 min easy walking after"],
+  ["TUE","Biceps + Triceps — 20–25 min shadow boxing"],
+  ["WED","Shoulders — 10–20 min easy walking"],
+  ["THU","Cardio Day — 30–35 min shadow boxing (main session)"],
+  ["FRI","Lat + Biceps — 15–20 min walking"],
+  ["SAT","Legs + Triceps — recovery walking only"],
+  ["SUN","Rest — 45–60 min walk or light shadow boxing"],
+];
+const CARDIO_NOTE = "Shadow boxing = cardio: 5 min warm-up, 3–6 rounds × 3 min (1 min rest between), 5 min cooldown. Keep it technique-first, not max power. Target 8–10k steps daily; protein at every meal; 7–8 hrs sleep.";
+const APT_TOPICS = [
+  "SQL Joins & CTEs",
+  "SQL Window Functions",
+  "Timed SQL Interview Qs",
+  "Hypothesis Testing",
+  "A/B Testing",
+  "Advanced Excel",
+  "Dashboard Design (Power BI / Tableau)",
+  "Behavioral Stories (STAR)",
+  "Business Metrics & Case Questions",
+];
+const SPK_CHECKS = [
+  "Answer 1 interview question out loud",
+  "Record yourself speaking for 1 min",
+  "Practice 'Tell me about yourself'",
+  "Shadow 1 English clip (pause & repeat)",
+];
+const ARC_START = new Date(2026,9,1);   // Oct 1, 2026
+const ARC_DAYS = 92;                    // Oct 1 → Dec 31
+const ROADMAP = [
+  {m:"October — Foundation", months:[9], weeks:[
+    "Set up tracking sheet & streak calendar; ATS-friendly resume; update LinkedIn & GitHub; pick datasets and cert",
+    "Start Project 1; SQL joins & CTEs; begin applying (5 roles) + 5 LinkedIn messages",
+    "Finish Project 1 dashboard & README; window functions; apply to 5–10 roles",
+    "Publish Project 1 + add to portfolio site; first mock interview; monthly review",
+  ]},
+  {m:"November — Build & Apply", months:[10], weeks:[
+    "Start Project 2 (new domain); stats & hypothesis testing; apply to 10 roles",
+    "Power BI / Tableau daily; 2 mock interviews; follow up on applications",
+    "Publish Project 2; PL-300 practice tests; apply to 10 roles",
+    "A/B testing & advanced Excel; tailor resume per role; monthly review",
+  ]},
+  {m:"December — Interview Mode", months:[11], weeks:[
+    "Start Project 3 (flagship); timed SQL interview questions; 2 mock interviews",
+    "Take the certification exam; prep stories: intro, projects, weaknesses",
+    "Finish Project 3; reach out to recruiters & alumni; apply to 10 roles",
+    "Quarter review: numbers, wins, gaps; set January goals; reward yourself",
+  ]},
+];
+const WEEKLY_TARGETS = [
+  ["APPLY","5–10 applications"],
+  ["REACH","5 LinkedIn messages (recruiters, analysts, alumni)"],
+  ["TRAIN","5–6 workouts"],
+  ["SQL","7 days of SQL practice"],
+  ["MOCK","2 mock interviews (from week 4 onward)"],
+  ["SUN","Review: applications sent, interviews done, projects shipped, workouts completed"],
+];
+const PROJECTS_DATA = [
+  {name:"Project 1 — Oct: SQL + Dashboard",status:"ip",desc:"End-to-end: real dataset → SQL cleaning → EDA → dashboard. Clean GitHub README, published on portfolio site."},
+  {name:"Project 2 — Nov: New Domain",status:"plan",desc:"Different domain (sales / HR / finance). Power BI or Tableau dashboard with business insights and a clear README."},
+  {name:"Project 3 — Dec: Flagship",status:"plan",desc:"Most polished project: stats / A/B testing angle, case-study write-up, dashboard, and interview-ready story."},
+  {name:"PL-300 Certification",status:"plan",desc:"Power BI Data Analyst exam. Practice tests in November, exam in Week 10 (December)."},
+];
+
+/* ══════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════ */
+function todayDOW(){ return (new Date().getDay()+6)%7; } // 0=Mon
+function greet(){
+  const h = new Date().getHours();
+  return h<12?"Good Morning 🥃": h<17?"Good Afternoon 🎩":"Good Evening 🕯️";
+}
+function arcDay(){
+  const t = new Date(); const a = new Date(t.getFullYear(),t.getMonth(),t.getDate());
+  return Math.round((a-ARC_START)/86400000)+1;
+}
+function fmtDate(d){ return d.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric',year:'numeric'}); }
+
+/* ══════════════════════════════════════════
+   CLOCK
+══════════════════════════════════════════ */
+function renderClock(){
+  const d = new Date();
+  document.getElementById('clockTime').textContent = d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('clockDate').textContent = fmtDate(d);
+  document.getElementById('greetingH').textContent = greet();
+  const pd = document.getElementById('priDate');
+  if(pd) pd.textContent = d.toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});
+  const arc = document.getElementById('arcSub');
+  if(arc){
+    const n = arcDay();
+    arc.textContent = n<1 ? 'Winter Arc begins Oct 1. Get ready — the job\'s yours to take.'
+      : n>ARC_DAYS ? 'Winter Arc complete. Review the quarter and set January goals.'
+      : `Winter Arc — Day ${n} of ${ARC_DAYS}. Stay sharp. The job's yours — go and take it.`;
+  }
+  const pld = document.getElementById('plannerDay');
+  if(pld) pld.textContent = d.toLocaleDateString([],{weekday:'long'});
+}
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+function setActive(el){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+// Update active nav on scroll
+const NAV_SECTIONS = ['sec-dashboard','sec-planner','sec-study','sec-course','sec-aptitude','sec-speaking','sec-jobs','sec-projects','sec-notes','sec-resources'];
+const mainEl = document.querySelector('.main');
+mainEl.addEventListener('scroll',()=>{
+  let current = NAV_SECTIONS[0];
+  NAV_SECTIONS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el && el.offsetTop - 80 <= mainEl.scrollTop) current = id;
+  });
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    const href = n.getAttribute('href');
+    n.classList.toggle('active', href === '#'+current);
+  });
+}, {passive:true});
+
+/* ══════════════════════════════════════════
+   STATS
+══════════════════════════════════════════ */
+function renderStats(){
+  const totalCourse = COURSE_SKILLS.reduce((s,c)=>s+c.hrs,0);
+  const doneCourse = COURSE_SKILLS.reduce((s,c)=>s+(S.courseDone[c.n]||0),0);
+  const cPct = Math.round(doneCourse/totalCourse*100);
+  const todayHabits = HABITS.filter(h=>S.habits[h]&&S.habits[h][todayDOW()]).length;
+  const dailyScore = Math.round(todayHabits/HABITS.length*100);
+  const aptPct = S.aptScores.length? S.aptScores[S.aptScores.length-1].s : 0;
+  const spkDays = Object.values(S.speaking).filter(Boolean).length;
+
+  const stats = [
+    {ico:"📖",label:"Deep Work Hours Today",val:`${S.studyHours}<small> / 7 hrs</small>`,bar:Math.min(100,S.studyHours/7*100),bc:"#4d9fff",click:bumpStudy},
+    {ico:"🎓",label:"Course Progress",val:`${cPct}%<small> ${doneCourse.toFixed(1)}/${totalCourse.toFixed(1)} hrs</small>`,bar:cPct,bc:"#c9a84c"},
+    {ico:"🔢",label:"Mock Interview Score",val:`${aptPct}<small> / 100</small>`,bar:aptPct,bc:"#f0a940"},
+    {ico:"🔥",label:"Arc Streak",val:`${spkDays}<small> / ${ARC_DAYS} days</small>`,bar:Math.min(100,spkDays/ARC_DAYS*100),bc:"#8b7cf6"},
+    {ico:"🏆",label:"Daily Score",val:`${dailyScore}<small> / 100</small>`,bar:dailyScore,bc:"#5db870"},
+  ];
+  document.getElementById('statGrid').innerHTML = stats.map((s,i)=>`
+    <div class="stat-card" onclick="${s.click?'bumpStudy()':''}">
+      <div class="st-icon">${s.ico}</div>
+      <div class="st-label">${s.label}</div>
+      <div class="st-val">${s.val}</div>
+      <div class="st-bar"><i style="background:${s.bc};width:${s.bar}%"></i></div>
+    </div>
+  `).join('');
+}
+function bumpStudy(){
+  const v = prompt('Update study / deep work hours today:', S.studyHours);
+  if(v!==null && !isNaN(parseFloat(v))){
+    S.studyHours = parseFloat(v);
+    if(!S.studyLog) S.studyLog = [];
+    const todayKey = new Date().toISOString().slice(0,10);
+    const idx = S.studyLog.findIndex(p=>p.date===todayKey);
+    const point = { date: todayKey, hours: S.studyHours };
+    if(idx>=0){ S.studyLog[idx]=point; } else { S.studyLog.push(point); }
+    save(); renderStats();
+  }
+}
+
+/* ══════════════════════════════════════════
+   PRIORITIES
+══════════════════════════════════════════ */
+const PRI_COLORS = ["#4d9fff","#5db870","#f0a940","#c9a84c","#8b7cf6","#e05a5a"];
+function renderPriorities(){
+  document.getElementById('prioritiesList').innerHTML = S.priorities.map((p,i)=>`
+    <div class="pri-row">
+      <span class="pri-dot" style="background:${PRI_COLORS[i%PRI_COLORS.length]}"></span>
+      <input type="checkbox" ${p.done?'checked':''} onchange="togglePri(${i})">
+      <div class="pri-text ${p.done?'done':''}" contenteditable="true" spellcheck="false"
+        onblur="editPri(${i},this.textContent)">${p.t}</div>
+    </div>
+  `).join('');
+}
+function togglePri(i){ S.priorities[i].done=!S.priorities[i].done; save(); renderPriorities(); renderStats(); }
+function editPri(i,v){ S.priorities[i].t=v.trim(); save(); }
+
+/* ══════════════════════════════════════════
+   WEEK PLAN
+══════════════════════════════════════════ */
+function renderWeekPlan(){
+  document.getElementById('weekPlan').innerHTML = WEEK_PLAN.map(([d,t])=>`
+    <div class="week-row"><span class="week-day">${d}</span><span>${t}</span></div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════════
+   WORKOUT PLAN
+══════════════════════════════════════════ */
+function renderWorkoutPlan(){
+  document.getElementById('workoutPlan').innerHTML = WORKOUT_PLAN.map(([d,t])=>`
+    <div class="week-row"><span class="week-day">${d}</span><span>${t}</span></div>
+  `).join('');
+  document.getElementById('cardioNote').textContent = CARDIO_NOTE;
+}
+
+/* ══════════════════════════════════════════
+   SCHEDULE
+══════════════════════════════════════════ */
+function renderSchedule(){
+  document.getElementById('scheduleList').innerHTML = SCHEDULE.map((row,i)=>`
+    <div class="sched-row">
+      <div class="sched-time">${row[0]}</div>
+      <div class="sched-label" contenteditable="true" spellcheck="false"
+        onblur="editSched(${i},this.textContent)">${S.schedChecks['lbl'+i]||row[1]}</div>
+      <input type="checkbox" ${S.schedChecks[i]?'checked':''} onchange="toggleSched(${i})">
+    </div>
+  `).join('');
+}
+function toggleSched(i){ S.schedChecks[i]=!S.schedChecks[i]; save(); renderStats(); }
+function editSched(i,v){ S.schedChecks['lbl'+i]=v.trim(); save(); }
+
+/* ══════════════════════════════════════════
+   FOCUS DONUT
+══════════════════════════════════════════ */
+function renderFocusDonut(){
+  let acc=0;
+  const stops = FOCUS_SEG.map(s=>{const st=acc;acc+=s.pct;return `${s.c} ${st}% ${acc}%`;}).join(',');
+  document.getElementById('focusDonut').style.background=`conic-gradient(${stops})`;
+  document.getElementById('focusLegend').innerHTML = FOCUS_SEG.map(s=>`
+    <div class="legend-item">
+      <span class="legend-dot" style="background:${s.c}"></span>
+      ${s.l}<span class="legend-pct">${s.pct}%</span>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════════
+   HABITS
+══════════════════════════════════════════ */
+function renderHabits(){
+  const todayIdx = todayDOW();
+  let html = `<tr><th></th>${DAY_LETTERS.map((l,i)=>`<th class="${i===todayIdx?'today-col':''}">${l}</th>`).join('')}</tr>`;
+  HABITS.forEach(h=>{
+    if(!S.habits[h]) S.habits[h]=[false,false,false,false,false,false,false];
+    const cells = S.habits[h].map((v,i)=>`<td><span class="hchk ${v?'on':''}" onclick="toggleHabit('${h.replace(/'/g,"\\'")}',${i})">${v?'✓':''}</span></td>`).join('');
+    html+=`<tr><td>${h}</td>${cells}</tr>`;
+  });
+  document.getElementById('habitTable').innerHTML=html;
+}
+function toggleHabit(h,i){
+  if(!S.habits[h]) S.habits[h]=[false,false,false,false,false,false,false];
+  S.habits[h][i]=!S.habits[h][i]; save(); renderHabits(); renderStats();
+}
+
+/* ══════════════════════════════════════════
+   CALENDAR
+══════════════════════════════════════════ */
+function renderCalendar(){
+  const d=new Date(), y=d.getFullYear(), m=d.getMonth();
+  const first=new Date(y,m,1);
+  const offset=(first.getDay()+6)%7;
+  const total=new Date(y,m+1,0).getDate();
+  let html=DAY_LETTERS.map(l=>`<div class="ch">${l}</div>`).join('');
+  for(let i=0;i<offset;i++) html+=`<div class="cd dim"></div>`;
+  for(let day=1;day<=total;day++){
+    const isToday=day===d.getDate();
+    html+=`<div class="cd ${isToday?'today':''}">${day}</div>`;
+  }
+  document.getElementById('calGrid').innerHTML=html;
+}
+
+/* ══════════════════════════════════════════
+   COURSE
+══════════════════════════════════════════ */
+function renderCourse(){
+  const total=COURSE_SKILLS.reduce((s,c)=>s+c.hrs,0);
+  const done=COURSE_SKILLS.reduce((s,c)=>s+(S.courseDone[c.n]||0),0);
+  const pct=Math.round(done/total*100);
+  document.getElementById('courseList').innerHTML = COURSE_SKILLS.map(c=>{
+    const d=S.courseDone[c.n]||0;
+    const p=Math.min(100,Math.round(d/c.hrs*100));
+    return `<div class="course-row">
+      <span>${c.n}</span>
+      <div class="prog-bar"><i style="width:${p}%"></i></div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--gold-dim);text-align:right;">${p}%</span>
+    </div>`;
+  }).join('');
+  document.getElementById('courseOverallPct').textContent=pct+'%';
+  document.getElementById('courseOverallBar').style.width=pct+'%';
+  document.getElementById('courseBumps').innerHTML = COURSE_SKILLS.map(c=>`
+    <button class="sql-btn" onclick="bumpCourse('${c.n}')">+30min ${c.n}</button>
+  `).join('');
+}
+function bumpCourse(n){
+  const cap=COURSE_SKILLS.find(c=>c.n===n).hrs;
+  S.courseDone[n]=Math.min(cap,(S.courseDone[n]||0)+0.5);
+  save(); renderCourse(); renderStats();
+}
+
+/* ══════════════════════════════════════════
+   SQL
+══════════════════════════════════════════ */
+function renderSql(){
+  const {easy,medium,hard}=S.sql;
+  const total=easy+medium+hard;
+  const segs=total===0
+    ?[{l:"Not started yet",pct:100,c:"#2e2a26"}]
+    :[{l:"Easy",pct:Math.round(easy/total*100),c:"#5db870"},{l:"Medium",pct:Math.round(medium/total*100),c:"#f0a940"},{l:"Hard",pct:Math.round(hard/total*100),c:"#e05a5a"}];
+  let acc=0;
+  const stops=segs.map(s=>{const st=acc;acc+=s.pct;return `${s.c} ${st}% ${acc}%`;}).join(',');
+  document.getElementById('sqlDonut').style.background=`conic-gradient(${stops})`;
+  document.getElementById('sqlHole').innerHTML=`${total}<br><span style="font-size:0.6rem;font-family:Inter;font-weight:400">Solved</span>`;
+  document.getElementById('sqlLegend').innerHTML=`
+    <div class="sql-row"><span style="color:var(--green-bright)">Easy: ${easy}</span><button class="sql-btn" onclick="bumpSql('easy')">+ Solved</button></div>
+    <div class="sql-row"><span style="color:var(--gold)">Medium: ${medium}</span><button class="sql-btn" onclick="bumpSql('medium')">+ Solved</button></div>
+    <div class="sql-row"><span style="color:var(--red)">Hard: ${hard}</span><button class="sql-btn" onclick="bumpSql('hard')">+ Solved</button></div>
+  `;
+}
+function bumpSql(l){ S.sql[l]++; save(); renderSql(); }
+
+/* ══════════════════════════════════════════
+   APTITUDE
+══════════════════════════════════════════ */
+function renderAptitude(){
+  document.getElementById('aptTopics').innerHTML = APT_TOPICS.map((t,i)=>{
+    const done=S.aptTopics[i]||0;
+    return `<div class="apt-topic">
+      <input type="checkbox" ${done>=1?'checked':''} onchange="toggleAptTopic(${i})">
+      <span style="flex:1">${t}</span>
+      <span class="apt-score">${done} sessions</span>
+      <button class="apt-bump" onclick="bumpApt(${i})">+1</button>
+    </div>`;
+  }).join('');
+  document.getElementById('aptScores').innerHTML = S.aptScores.length===0
+    ? `<div style="color:var(--muted);font-size:0.8rem;padding:10px 0;">No scores logged yet. Do a mock interview and log your self-score below.</div>`
+    : S.aptScores.slice(-6).reverse().map(s=>`
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.8rem;">
+        <span style="color:var(--smoke)">${s.date}</span>
+        <span style="font-family:'IBM Plex Mono',monospace;color:var(--gold)">${s.s} / 100</span>
+      </div>`).join('');
+}
+function toggleAptTopic(i){ S.aptTopics[i]=(S.aptTopics[i]||0)>=1?0:1; save(); renderAptitude(); }
+function bumpApt(i){ S.aptTopics[i]=(S.aptTopics[i]||0)+1; save(); renderAptitude(); }
+function logAptScore(){
+  const v=prompt("Enter your mock interview score (out of 100):");
+  if(v!==null&&!isNaN(parseInt(v))){
+    S.aptScores.push({date:new Date().toLocaleDateString([],{month:'short',day:'numeric'}),s:parseInt(v)});
+    save(); renderAptitude(); renderStats();
+  }
+}
+
+/* ══════════════════════════════════════════
+   SPEAKING
+══════════════════════════════════════════ */
+function renderSpeaking(){
+  const days=Array.from({length:ARC_DAYS},(_,i)=>i+1);
+  const today=arcDay();
+  document.getElementById('speakingGrid').innerHTML = days.map(d=>`
+    <div class="spk-day ${S.speaking[d]?'done':''}" style="${d===today?'border-color:var(--gold)':''}" onclick="toggleSpeak(${d})">
+      <div class="sd-num">D${d}</div>
+      <div class="sd-chk">${S.speaking[d]?'🔥':'○'}</div>
+    </div>
+  `).join('');
+  document.getElementById('speakingChecks').innerHTML = SPK_CHECKS.map((c,i)=>`
+    <div class="apt-topic">
+      <input type="checkbox" ${S.habits['spk'+i]&&S.habits['spk'+i][todayDOW()]?'checked':''} onchange="toggleSpkCheck(${i})">
+      <span>${c}</span>
+    </div>
+  `).join('');
+}
+function toggleSpeak(d){ S.speaking[d]=!S.speaking[d]; save(); renderSpeaking(); renderStats(); }
+function toggleSpkCheck(i){
+  const k='spk'+i;
+  if(!S.habits[k]) S.habits[k]=[false,false,false,false,false,false,false];
+  S.habits[k][todayDOW()]=!S.habits[k][todayDOW()]; save(); renderSpeaking();
+}
+
+/* ══════════════════════════════════════════
+   JOBS
+══════════════════════════════════════════ */
+const APP_STATS=[
+  {k:"applied",l:"Applied",c:"#4d9fff"},
+  {k:"interview",l:"Interview",c:"#f0a940"},
+  {k:"assessment",l:"Assessment",c:"#8b7cf6"},
+  {k:"offer",l:"Offer 🏆",c:"#5db870"},
+  {k:"outreach",l:"LinkedIn Msgs",c:"#4d9fff"},
+  {k:"mock",l:"Mock Interviews",c:"#f0a940"},
+];
+function renderJobs(){
+  document.getElementById('appsGrid').innerHTML = APP_STATS.map(a=>`
+    <div class="app-stat">
+      <div class="an" style="color:${a.c}">${S.apps[a.k]||0}</div>
+      <div class="al">${a.l}</div>
+      <div class="app-btns">
+        <button onclick="bumpApp('${a.k}',1)">+</button>
+        <button onclick="bumpApp('${a.k}',-1)">−</button>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('appLog').innerHTML = S.appLog.length===0
+    ? `<div style="color:var(--muted);font-size:0.8rem;padding:10px 0;">No applications logged yet. Use the button below to start tracking.</div>`
+    : S.appLog.slice(-8).reverse().map(a=>`
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.8rem;">
+        <span>${a.company} — <span style="color:var(--smoke)">${a.role}</span></span>
+        <span style="color:var(--gold-dim);font-size:0.72rem;">${a.date}</span>
+      </div>`).join('');
+}
+function bumpApp(k,d){ S.apps[k]=Math.max(0,(S.apps[k]||0)+d); save(); renderJobs(); renderStats(); }
+function logApp(){
+  const co=prompt("Company name:"); if(!co) return;
+  const ro=prompt("Role applied for:");
+  S.appLog.push({company:co.trim(),role:(ro||'Data Analyst').trim(),date:new Date().toLocaleDateString([],{month:'short',day:'numeric'})});
+  S.apps.applied=(S.apps.applied||0)+1;
+  save(); renderJobs(); renderStats();
+}
+
+/* ══════════════════════════════════════════
+   PROJECTS
+══════════════════════════════════════════ */
+function renderProjects(){
+  const statusClass={ip:'status-ip',done:'status-done',plan:'status-plan'};
+  const statusLabel={ip:'In Progress',done:'Complete',plan:'Planned'};
+  document.getElementById('projectsGrid').innerHTML = PROJECTS_DATA.map(p=>`
+    <div class="proj-card">
+      <div class="proj-name">${p.name}</div>
+      <span class="proj-status ${statusClass[p.status]}">${statusLabel[p.status]}</span>
+      <div class="proj-desc">${p.desc}</div>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════════
+   ROADMAP
+══════════════════════════════════════════ */
+function renderRoadmap(){
+  const curMonth = new Date().getMonth();
+  document.getElementById('roadmapGrid').innerHTML = ROADMAP.map((ph,pi)=>`
+    <div class="card" style="${ph.months.includes(curMonth)?'border-color:var(--gold-dim)':''}">
+      <div class="card-title">${ph.m}${ph.months.includes(curMonth)?'<span class="ct-right" style="color:var(--gold)">● current</span>':''}</div>
+      ${ph.weeks.map((w,wi)=>{
+        const k='w'+(pi*4+wi+1);
+        const on=!!(S.roadmap&&S.roadmap[k]);
+        return `<div class="goal-row">
+          <input type="checkbox" ${on?'checked':''} onchange="toggleRoad('${k}')">
+          <span class="goal-text ${on?'':''}" style="${on?'text-decoration:line-through;color:var(--muted)':''}"><b style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--gold)">W${pi*4+wi+1}</b> ${w}</span>
+        </div>`;
+      }).join('')}
+    </div>
+  `).join('');
+  document.getElementById('weeklyTargets').innerHTML = WEEKLY_TARGETS.map(([d,t])=>`
+    <div class="week-row"><span class="week-day" style="width:54px">${d}</span><span>${t}</span></div>
+  `).join('');
+}
+function toggleRoad(k){ if(!S.roadmap) S.roadmap={}; S.roadmap[k]=!S.roadmap[k]; save(); renderRoadmap(); }
+
+/* ══════════════════════════════════════════
+   NOTES
+══════════════════════════════════════════ */
+function renderNotes(){
+  document.getElementById('notesToday').value=S.notesToday||'';
+  document.getElementById('notesQA').value=S.notesQA||'';
+  document.getElementById('notesReview').value=S.notesReview||'';
+}
+function saveNotes(){
+  S.notesToday=document.getElementById('notesToday').value;
+  S.notesQA=document.getElementById('notesQA').value;
+  S.notesReview=document.getElementById('notesReview').value;
+  save();
+}
+
+/* ══════════════════════════════════════════
+   PROFILE NAME
+══════════════════════════════════════════ */
+function renderProfile(){
+  const el=document.getElementById('sbName');
+  el.textContent=S.name;
+  document.getElementById('avatarLetter').textContent=(S.name.trim()[0]||'?').toUpperCase();
+  el.onblur=()=>{ S.name=el.textContent.trim()||"Your Name"; save(); renderProfile(); };
+}
+
+/* ══════════════════════════════════════════
+   STORAGE
+══════════════════════════════════════════ */
+async function save() {
+    try {
+        await DB.save("progress", "dashboard", S);
+
+        const t = document.getElementById("saveToast");
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 1200);
+
+    } catch (e) {
+        console.error(e);
+    }
+}
+async function load() {
+
+    try {
+
+        const loaded = await DB.load("progress", "dashboard");
+
+        if (loaded) {
+            const wasPlan = loaded.plan;
+            S = Object.assign(S, loaded);
+            // One-time refresh to the Winter Arc plan: reset the plan-specific
+            // lists (habit ticks, priorities, schedule, streak) but keep
+            // SQL, applications, course hours, scores and notes.
+            if (wasPlan !== PLAN_ID) {
+                const keepSpk = {};
+                Object.keys(S.habits||{}).forEach(k => { if (k.startsWith('spk')) keepSpk[k] = S.habits[k]; });
+                S.habits = keepSpk;
+                S.priorities = defaultPriorities();
+                S.schedChecks = {};
+                S.speaking = {};
+                S.aptTopics = {};
+                S.roadmap = {};
+                S.plan = PLAN_ID;
+                save();
+            }
+        }
+
+    } catch (e) {
+        console.error(e);
+    }
+
+    renderAll();
+}
+
+/* ══════════════════════════════════════════
+   RENDER ALL
+══════════════════════════════════════════ */
+function renderAll(){
+  renderClock();
+  renderStats();
+  renderPriorities();
+  renderWeekPlan();
+  renderWorkoutPlan();
+  renderSchedule();
+  renderFocusDonut();
+  renderHabits();
+  renderCalendar();
+  renderCourse();
+  renderSql();
+  renderRoadmap();
+  renderAptitude();
+  renderSpeaking();
+  renderJobs();
+  renderProjects();
+  renderNotes();
+  renderProfile();
+}
+
+load();
+setInterval(renderClock, 30000);
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("../sw.js")
+            .then(() => console.log("Service Worker Registered"))
+            .catch(err => console.error(err));
+    });
+}
+</script>
+</body>
+</html>

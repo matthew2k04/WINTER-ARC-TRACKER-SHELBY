@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shelby Ledger — Training Tracker</title>
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icons/icon-192.png">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<meta name="theme-color" content="#c89b3c">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --bg:#0b0d0a;
+  --panel:#14170f;
+  --panel-2:#1b1f17;
+  --line:#30362b;
+  --brass:#a8813c;
+  --brass-light:#d4ac66;
+  --garnet:#6e2020;
+  --parchment:#e9e3d0;
+  --muted:#8a9080;
+  --neon:#4fe0e8;
+  --neon-dim:rgba(79,224,232,0.28);
+  --smoke:rgba(233,227,208,0.05);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(ellipse at 20% -10%, rgba(168,129,60,0.10), transparent 45%),
+    radial-gradient(ellipse at 100% 110%, rgba(79,224,232,0.06), transparent 50%),
+    var(--bg);
+  color:var(--parchment);
+  font-family:'IBM Plex Mono', monospace;
+  min-height:100vh;
+  padding:28px 20px 60px;
+}
+
+.wrap{max-width:1080px;margin:0 auto;}
+
+/* ---------- HEADER ---------- */
+.masthead{
+  border:1px solid var(--line);
+  background:linear-gradient(180deg, var(--panel-2), var(--panel));
+  padding:22px 26px;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:18px;
+}
+.masthead::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 4px);
+  pointer-events:none;
+}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px; letter-spacing:3px; color:var(--brass-light);
+  text-transform:uppercase; margin:0 0 6px;
+}
+.title-row{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:14px;}
+h1{
+  font-family:'Oswald', sans-serif;
+  font-weight:700;
+  font-size:42px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin:0;
+  color:var(--parchment);
+  text-shadow:0 0 18px rgba(79,224,232,0.10);
+}
+h1 span{color:var(--brass-light);}
+.back-link{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--brass-light);text-decoration:none;border:1px solid var(--brass);
+  padding:8px 14px;white-space:nowrap;
+  position:absolute; right:18px; top:18px;
+}
+.back-link:hover{border-color:var(--brass-light);background:rgba(201,168,76,0.08);}
+.stamp{
+  border:1px solid var(--garnet);
+  color:#d99;
+  font-size:11px;
+  letter-spacing:2px;
+  padding:5px 10px;
+  transform:rotate(-3deg);
+  text-transform:uppercase;
+  white-space:nowrap;
+  opacity:0.85;
+}
+.subline{color:var(--muted); font-size:12.5px; margin-top:6px; letter-spacing:0.5px;}
+
+/* ---------- VITALS PANEL ---------- */
+.grid-top{
+  display:grid;
+  grid-template-columns: 260px 1fr;
+  gap:18px;
+  margin-bottom:18px;
+}
+@media (max-width:760px){ .grid-top{grid-template-columns:1fr;} }
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  padding:18px 20px;
+}
+.panel-title{
+  font-family:'Oswald', sans-serif;
+  font-size:13px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--brass-light);
+  margin:0 0 14px;
+  display:flex; align-items:center; gap:8px;
+}
+.panel-title::after{content:""; flex:1; height:1px; background:var(--line);}
+
+.vitals-dial{
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+}
+.dial-label{font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase;}
+.dial-value{font-family:'Oswald',sans-serif; font-size:15px; color:var(--neon); letter-spacing:1px;}
+
+.stat-row{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px dashed var(--line); font-size:13px;}
+.stat-row:last-child{border-bottom:none;}
+.stat-row .k{color:var(--muted);}
+.stat-row .v{color:var(--parchment); font-weight:600;}
+.stat-row .v.editable{cursor:text; border-bottom:1px dotted var(--brass);}
+
+.badge-cat{
+  margin-top:10px; text-align:center;
+  font-family:'Oswald',sans-serif; letter-spacing:2px; font-size:13px;
+  padding:8px; border:1px solid var(--garnet); color:#e6a3a3; background:rgba(110,32,32,0.12);
+  text-transform:uppercase;
+}
+
+/* ---------- FORM ---------- */
+.form-grid{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
+@media (max-width:520px){ .form-grid{grid-template-columns:1fr;} }
+.field{display:flex; flex-direction:column; gap:5px;}
+.field label{font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted);}
+select, input[type=text], input[type=number], input[type=date]{
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  color:var(--parchment);
+  padding:9px 10px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px;
+  outline:none;
+}
+select:focus, input:focus{border-color:var(--neon); box-shadow:0 0 0 1px var(--neon-dim);}
+
+.sets-block{margin-top:14px; border-top:1px solid var(--line); padding-top:12px;}
+.sets-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
+.sets-header span{font-size:10.5px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase;}
+.set-row{display:grid; grid-template-columns: 32px 1fr 1fr 30px; gap:8px; align-items:center; margin-bottom:6px;}
+.set-idx{color:var(--brass-light); font-size:12px; text-align:center;}
+.rm-set{background:none; border:1px solid var(--garnet); color:#d99; cursor:pointer; font-size:12px; padding:6px 0;}
+.rm-set:hover{background:rgba(110,32,32,0.2);}
+
+.btn-row{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;}
+button{
+  font-family:'Oswald', sans-serif;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  font-size:12.5px;
+  padding:10px 16px;
+  border:1px solid var(--brass);
+  background:transparent;
+  color:var(--brass-light);
+  cursor:pointer;
+  transition:all .15s ease;
+}
+button:hover{background:rgba(168,129,60,0.14); color:var(--parchment);}
+button.primary{background:var(--brass); color:#14170f; font-weight:600;}
+button.primary:hover{background:var(--brass-light);}
+button.ghost{border-color:var(--line); color:var(--muted);}
+button.ghost:hover{border-color:var(--neon); color:var(--neon);}
+
+/* ---------- LEDGER ---------- */
+.ledger-day{margin-bottom:16px;}
+.ledger-date{
+  font-family:'Oswald',sans-serif; letter-spacing:2px; font-size:13px;
+  color:var(--neon); text-transform:uppercase; margin-bottom:8px;
+  display:flex; align-items:center; gap:10px;
+}
+.ledger-date::after{content:""; flex:1; height:1px; background:var(--line);}
+.entry{
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-left:3px solid var(--brass);
+  padding:12px 14px;
+  margin-bottom:8px;
+  display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap;
+}
+.entry-main .ex-name{font-size:14px; color:var(--parchment); font-weight:600;}
+.entry-main .ex-group{font-size:10.5px; color:var(--brass-light); letter-spacing:1.5px; text-transform:uppercase; margin-top:2px;}
+.entry-sets{display:flex; gap:10px; flex-wrap:wrap;}
+.set-chip{
+  border:1px solid var(--neon-dim);
+  color:var(--neon);
+  font-size:11.5px;
+  padding:4px 8px;
+  white-space:nowrap;
+}
+.entry-del{background:none; border:none; color:var(--muted); cursor:pointer; font-size:16px; line-height:1; padding:0 4px;}
+.entry-del:hover{color:#d99;}
+
+.empty-state{
+  text-align:center; padding:40px 20px; color:var(--muted);
+  font-size:13px; letter-spacing:0.5px;
+  border:1px dashed var(--line);
+}
+
+.footer-note{
+  text-align:center; color:var(--muted); font-size:10.5px; letter-spacing:1.5px;
+  margin-top:24px; text-transform:uppercase;
+}
+
+/* silhouette flourish */
+.cap-mark{
+  position:absolute; right:18px; top:52px; opacity:0.5;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <a class="back-link" href="../index.html">← Back to Tracker</a>
+    <div class="cap-mark">
+      <svg width="46" height="30" viewBox="0 0 46 30" fill="none">
+        <path d="M2 24 C2 14 12 6 23 6 C34 6 44 12 44 22 L44 24 C44 26 42 27 40 27 L6 27 C4 27 2 26 2 24Z" fill="#d4ac66" opacity="0.9"/>
+        <path d="M6 15 C10 9 16 6 23 6" stroke="#0b0d0a" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <circle cx="6" cy="18" r="1.6" fill="#0b0d0a" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="eyebrow">By Order — Shelby Company Limited</div>
+    <div class="title-row">
+      <div>
+        <h1>The Ledger<span>.</span></h1>
+        <div class="subline">Daily training record — logged, weighed, accounted for.</div>
+      </div>
+      <div class="stamp" id="dateStamp">— OPEN CASE —</div>
+    </div>
+  </div>
+
+  <div class="grid-top">
+    <!-- VITALS -->
+    <div class="panel">
+      <div class="panel-title">Vitals</div>
+      <div class="vitals-dial">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="62" fill="none" stroke="#30362b" stroke-width="10"/>
+          <circle id="bmiRing" cx="75" cy="75" r="62" fill="none" stroke="#4fe0e8" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="389.6" stroke-dashoffset="389.6"
+                  transform="rotate(-90 75 75)"/>
+          <text x="75" y="70" text-anchor="middle" fill="#e9e3d0" font-family="Oswald" font-size="26" font-weight="600" id="bmiText">--</text>
+          <text x="75" y="90" text-anchor="middle" fill="#8a9080" font-family="IBM Plex Mono" font-size="9" letter-spacing="2">BODY MASS INDEX</text>
+        </svg>
+      </div>
+      <div class="badge-cat" id="bmiCategory">—</div>
+
+      <div style="margin-top:14px;">
+        <div class="stat-row"><span class="k">Age</span><span class="v editable" contenteditable id="fAge">22</span></div>
+        <div class="stat-row"><span class="k">Height (cm)</span><span class="v editable" contenteditable id="fHeight">180</span></div>
+        <div class="stat-row"><span class="k">Weight (kg)</span><span class="v editable" contenteditable id="fWeight">107</span></div>
+      </div>
+      <button class="ghost" style="width:100%; margin-top:12px;" id="saveVitals">Update Case File</button>
+    </div>
+
+    <!-- LOG FORM -->
+    <div class="panel">
+      <div class="panel-title">Log Today's Work</div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Class</label>
+          <select id="muscleGroup">
+            <option>Chest</option><option>Back</option><option>Legs</option>
+            <option>Shoulders</option><option>Arms</option><option>Core</option>
+            <option>Cardio</option><option>Full Body</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Variation</label>
+          <input type="text" id="exerciseName" placeholder="e.g. Incline dumbbell press">
+        </div>
+      </div>
+
+      <div class="sets-block">
+        <div class="sets-header">
+          <span>Sets — reps / weight (kg)</span>
+          <button class="ghost" id="addSet" style="padding:4px 10px; font-size:11px;">+ Add Set</button>
+        </div>
+        <div id="setsContainer"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="primary" id="saveEntry">File Entry</button>
+        <button class="ghost" id="clearForm">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEDGER -->
+  <div class="panel">
+    <div class="panel-title">The Record</div>
+    <div id="ledger"></div>
+  </div>
+
+  <div class="footer-note">Shelby Company Ltd — every rep accounted for</div>
+  <div class="footer-note" style="margin-top:6px;opacity:0.8;">Developed by YOGZ</div>
+</div>
+<script src="../js/db.js"></script>
+
+<script>
+const STORAGE_ENTRIES = 'ledger:entries';
+const STORAGE_VITALS = 'ledger:vitals';
+
+let entries = [];
+let vitals = { age:0, height:0, weight:0 };
+
+function todayStr(){
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+function fmtDate(iso){
+  const d = new Date(iso+'T00:00:00');
+  return d.toLocaleDateString('en-GB',{ day:'2-digit', month:'short', year:'numeric'}).toUpperCase();
+}
+
+document.getElementById('dateStamp').textContent = fmtDate(todayStr());
+
+// ---------- SETS UI ----------
+function addSetRow(reps='', weight=''){
+  const container = document.getElementById('setsContainer');
+  const idx = container.children.length + 1;
+  const row = document.createElement('div');
+  row.className = 'set-row';
+  row.innerHTML = `
+    <div class="set-idx">${idx}</div>
+    <input type="number" class="rep-input" placeholder="reps" min="0" value="${reps}">
+    <input type="number" class="weight-input" placeholder="kg" min="0" step="0.5" value="${weight}">
+    <button class="rm-set" title="remove">✕</button>
+  `;
+  row.querySelector('.rm-set').addEventListener('click', ()=>{
+    row.remove();
+    renumberSets();
+  });
+  container.appendChild(row);
+}
+function renumberSets(){
+  document.querySelectorAll('#setsContainer .set-row').forEach((row,i)=>{
+    row.querySelector('.set-idx').textContent = i+1;
+  });
+}
+document.getElementById('addSet').addEventListener('click', ()=>addSetRow());
+addSetRow(); addSetRow();
+
+function clearForm(){
+  document.getElementById('exerciseName').value = '';
+  document.getElementById('setsContainer').innerHTML = '';
+  addSetRow(); addSetRow();
+}
+document.getElementById('clearForm').addEventListener('click', clearForm);
+
+// ---------- VITALS ----------
+function computeBMI(weight, heightCm){
+  const h = heightCm/100;
+  return weight / (h*h);
+}
+function categoryFor(bmi){
+  if(bmi < 18.5) return { label:'Underweight', color:'#e6c36a' };
+  if(bmi < 25) return { label:'Healthy Range', color:'#7bd68a' };
+  if(bmi < 30) return { label:'Overweight', color:'#e6a35a' };
+  return { label:'Obese', color:'#e6a3a3' };
+}
+function renderVitals(){
+  document.getElementById('fAge').textContent = vitals.age;
+  document.getElementById('fHeight').textContent = vitals.height;
+  document.getElementById('fWeight').textContent = vitals.weight;
+
+  const bmi = computeBMI(vitals.weight, vitals.height);
+  const cat = categoryFor(bmi);
+  document.getElementById('bmiText').textContent = bmi.toFixed(1);
+  const catEl = document.getElementById('bmiCategory');
+  catEl.textContent = cat.label;
+  catEl.style.borderColor = cat.color;
+  catEl.style.color = cat.color;
+
+  // ring: map bmi 15-40 range onto 0-100%
+  const pct = Math.max(0, Math.min(1, (bmi-15)/(40-15)));
+  const circumference = 389.6;
+  const offset = circumference - pct*circumference;
+  document.getElementById('bmiRing').style.strokeDashoffset = offset;
+  document.getElementById('bmiRing').style.stroke = bmi>=30 ? '#e6a3a3' : '#4fe0e8';
+}
+
+async function loadVitals() {
+
+    try {
+
+        const data = await DB.load("gym", "vitals");
+
+        console.log("Loaded Data:", data);
+
+        if (data) {
+            vitals = data;
+        }
+
+    } catch (e) {
+        console.error(e);
+    }
+
+    renderVitals();
+}
+
+document.getElementById('saveVitals').addEventListener('click', async ()=>{
+  const age = parseInt(document.getElementById('fAge').textContent) || vitals.age;
+  const height = parseFloat(document.getElementById('fHeight').textContent) || vitals.height;
+  const weight = parseFloat(document.getElementById('fWeight').textContent) || vitals.weight;
+  vitals = { age, height, weight };
+  renderVitals();
+  try{
+await DB.save("gym", "vitals", vitals);
+
+// keep a dated history point for trend charts (Analytics)
+const bmiNow = computeBMI(weight, height);
+let log = [];
+try{ log = (await DB.load("gym", "weightLog")) || []; }catch(e){ log = []; }
+const today = todayStr();
+const existingIdx = log.findIndex(p => p.date === today);
+const point = { date: today, weight, bmi: Math.round(bmiNow * 10) / 10 };
+if(existingIdx >= 0){ log[existingIdx] = point; } else { log.push(point); }
+await DB.save("gym", "weightLog", log);
+
+console.log("Saved:", vitals);  }catch(e){ 
+    console.error('vitals save failed', e); 
+  }
+});
+
+// ---------- ENTRIES ----------
+async function loadEntries() {
+    try {
+        const data = await DB.load("gym", "entries");
+
+        if (data) {
+            entries = data;
+        } else {
+            entries = [];
+        }
+
+    } catch (e) {
+        console.error("Entry load failed", e);
+        entries = [];
+    }
+
+    renderLedger();
+}
+
+async function persistEntries() {
+    try {
+        await DB.save("gym", "entries", entries);
+    } catch (e) {
+        console.error("Entry save failed", e);
+    }
+}
+
+document.getElementById('saveEntry').addEventListener('click', async ()=>{
+  const group = document.getElementById('muscleGroup').value;
+  const name = document.getElementById('exerciseName').value.trim();
+  if(!name){
+    document.getElementById('exerciseName').style.borderColor = '#6e2020';
+    return;
+  }
+  const reps = Array.from(document.querySelectorAll('.rep-input')).map(i=>i.value);
+  const weights = Array.from(document.querySelectorAll('.weight-input')).map(i=>i.value);
+  const sets = [];
+  for(let i=0;i<reps.length;i++){
+    if(reps[i] !== '' || weights[i] !== ''){
+      sets.push({ reps: reps[i] || '0', weight: weights[i] || '0' });
+    }
+  }
+  const entry = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    date: todayStr(),
+    group, name, sets
+  };
+  entries.unshift(entry);
+  await persistEntries();
+  renderLedger();
+  clearForm();
+  document.getElementById('exerciseName').style.borderColor = '#30362b';
+});
+
+function deleteEntry(id){
+  entries = entries.filter(e=>e.id !== id);
+  persistEntries();
+  renderLedger();
+}
+
+function renderLedger(){
+  const ledger = document.getElementById('ledger');
+  if(entries.length === 0){
+    ledger.innerHTML = `<div class="empty-state">No entries filed yet. The floor is quiet — get to work.</div>`;
+    return;
+  }
+  const byDate = {};
+  entries.forEach(e=>{
+    if(!byDate[e.date]) byDate[e.date] = [];
+    byDate[e.date].push(e);
+  });
+  const dates = Object.keys(byDate).sort((a,b)=> b.localeCompare(a));
+  ledger.innerHTML = dates.map(date=>{
+    const rows = byDate[date].map(e=>{
+      const chips = e.sets.map((s,i)=>`<span class="set-chip">${i+1}: ${s.reps}×${s.weight}kg</span>`).join('');
+      return `
+        <div class="entry">
+          <div class="entry-main">
+            <div class="ex-name">${escapeHtml(e.name)}</div>
+            <div class="ex-group">${escapeHtml(e.group)}</div>
+          </div>
+          <div class="entry-sets">${chips || '<span class="set-chip">no sets logged</span>'}</div>
+          <button class="entry-del" onclick="deleteEntry('${e.id}')">✕</button>
+        </div>
+      `;
+    }).join('');
+    return `<div class="ledger-day"><div class="ledger-date">${fmtDate(date)}</div>${rows}</div>`;
+  }).join('');
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ---------- INIT ----------
+(async function init(){
+  await loadVitals();
+  await loadEntries();
+})();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("../sw.js")
+            .then(() => console.log("Service Worker Registered"))
+            .catch(err => console.error(err));
+    });
+}
+</script>
+</body>
+</html>
