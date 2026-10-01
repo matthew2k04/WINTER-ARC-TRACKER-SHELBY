@@ -1,0 +1,65 @@
+{
+  "id": "/SHELBY_TRACKER/",
+  "name": "Shelby Tracker",
+  "short_name": "Shelby",
+  "description": "Fitness and Productivity Tracker — by order of the Peaky Blinders.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#0b0d0a",
+  "theme_color": "#c89b3c",
+  "orientation": "portrait",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["health", "productivity", "lifestyle"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Gym Ledger",
+      "short_name": "Gym",
+      "description": "Log today's training",
+      "url": "./pages/GYM.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Progress Dashboard",
+      "short_name": "Progress",
+      "description": "Planner, habits & study tracker",
+      "url": "./pages/SHELBY_PROGRESS.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Analytics",
+      "short_name": "Analytics",
+      "description": "Charts & trends across all trackers",
+      "url": "./pages/ANALYTICS.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

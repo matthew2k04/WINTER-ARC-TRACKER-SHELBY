@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Shelby Tracker</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#c89b3c">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --coal:#0a0804;
+  --soot:#141210;
+  --soot2:#1c1915;
+  --soot3:#252220;
+  --border:#2e2a26;
+  --gold:#c9a84c;
+  --gold-dim:#8b6e30;
+  --gold-light:#d4ac66;
+  --cream:#e8d5b0;
+  --text:#d4c4a8;
+  --smoke:#6b6560;
+  --muted:#5a5450;
+}
+
+*{box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at 15% -10%, rgba(201,168,76,0.10), transparent 45%),
+      radial-gradient(ellipse at 100% 110%, rgba(201,168,76,0.05), transparent 50%),
+      var(--coal);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+.container{
+    max-width:1080px;
+    margin:auto;
+    padding:48px 24px 60px;
+}
+
+/* ---------- MASTHEAD ---------- */
+.masthead{
+  position:relative;
+  border:1px solid var(--border);
+  background:linear-gradient(180deg, var(--soot2), var(--soot));
+  padding:34px 30px;
+  overflow:hidden;
+  margin-bottom:36px;
+}
+.masthead::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 4px);
+  pointer-events:none;
+}
+.cap-mark{ position:absolute; right:22px; top:20px; opacity:0.55; }
+.eyebrow{
+  font-size:11px; letter-spacing:3px; color:var(--gold-light);
+  text-transform:uppercase; margin:0 0 10px;
+}
+h1{
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    font-size:52px;
+    letter-spacing:2px;
+    margin:0;
+    color:var(--cream);
+    text-shadow:0 0 24px rgba(201,168,76,0.12);
+}
+
+.subtitle{
+    color:var(--smoke);
+    font-size:13px;
+    letter-spacing:1px;
+    margin-top:10px;
+}
+
+/* corner flourishes */
+.flourish{ position:absolute; width:26px; height:26px; }
+.flourish span{ position:absolute; background:var(--gold-dim); }
+.fl-tl{ top:14px; left:14px; } .fl-tl span:nth-child(1){ width:100%; height:1px; top:0; left:0; } .fl-tl span:nth-child(2){ height:100%; width:1px; top:0; left:0; }
+.fl-br{ bottom:14px; right:14px; } .fl-br span:nth-child(1){ width:100%; height:1px; bottom:0; left:0; } .fl-br span:nth-child(2){ height:100%; width:1px; bottom:0; right:0; }
+
+/* ---------- CARDS ---------- */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px;
+}
+
+.card{
+    position:relative;
+    background:var(--soot);
+    border:1px solid var(--border);
+    border-left:3px solid var(--gold-dim);
+    padding:26px;
+    transition:.2s ease;
+    cursor:pointer;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:var(--gold);
+    border-left-color:var(--gold);
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+}
+
+.icon{
+    font-size:42px;
+}
+
+.title{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:22px;
+    margin-top:18px;
+    color:var(--gold-light);
+    letter-spacing:0.5px;
+}
+
+.desc{
+    color:var(--smoke);
+    margin-top:10px;
+    font-size:12.5px;
+    line-height:1.7;
+}
+
+/* ---------- INSTALL / OFFLINE ---------- */
+.install-bar{
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-top:28px;
+    padding:16px 22px;
+    background:var(--soot);
+    border:1px solid var(--gold-dim);
+}
+
+.install-bar.show{ display:flex; }
+
+.install-bar .txt{ font-size:13px; color:var(--text); }
+.install-bar .txt small{ display:block; color:var(--muted); margin-top:2px; }
+
+.install-bar button{
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    font-weight:700;
+    padding:10px 20px;
+    border:1px solid var(--gold);
+    background:var(--gold);
+    color:var(--coal);
+    cursor:pointer;
+    white-space:nowrap;
+}
+
+.install-bar button:hover{ background:var(--gold-light); }
+
+.offline-pill{
+    display:none;
+    margin-top:14px;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:#e6a3a3;
+    border:1px solid #6e2020;
+    background:rgba(110,32,32,0.14);
+    padding:9px 16px;
+    text-align:center;
+}
+
+.offline-pill.show{ display:block; }
+
+/* ---------- FOOTER ---------- */
+.footer{
+    margin-top:60px;
+    text-align:center;
+}
+.footer .line1{
+    color:var(--smoke);
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+.footer .credit{
+    margin-top:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--gold-dim);
+    letter-spacing:1px;
+}
+.footer .credit span{ color:var(--gold-light); }
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="masthead">
+  <div class="cap-mark">
+    <svg width="52" height="34" viewBox="0 0 46 30" fill="none">
+      <path d="M2 24 C2 14 12 6 23 6 C34 6 44 12 44 22 L44 24 C44 26 42 27 40 27 L6 27 C4 27 2 26 2 24Z" fill="#d4ac66" opacity="0.85"/>
+      <path d="M6 15 C10 9 16 6 23 6" stroke="#0b0d0a" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <circle cx="6" cy="18" r="1.6" fill="#0b0d0a" opacity="0.6"/>
+    </svg>
+  </div>
+  <div class="flourish fl-tl"><span></span><span></span></div>
+  <div class="flourish fl-br"><span></span><span></span></div>
+  <div class="eyebrow">By Order — Shelby Company Limited</div>
+  <h1>SHELBY TRACKER</h1>
+  <div class="subtitle">Fitness &nbsp;•&nbsp; Productivity &nbsp;•&nbsp; Discipline</div>
+</div>
+
+<div class="cards">
+
+<div class="card" onclick="location.href='pages/GYM.html'">
+<div class="icon">💪</div>
+<div class="title">Gym Tracker</div>
+<div class="desc">
+Workout Ledger<br>
+BMI<br>
+Body Stats
+</div>
+</div>
+
+<div class="card" onclick="location.href='pages/SHELBY_PROGRESS.html'">
+<div class="icon">📈</div>
+<div class="title">Progress Tracker</div>
+<div class="desc">
+Planner<br>
+Habits<br>
+Study Tracker
+</div>
+</div>
+
+<div class="card" onclick="location.href='pages/ANALYTICS.html'">
+<div class="icon">📊</div>
+<div class="title">Analytics</div>
+<div class="desc">
+Trends<br>
+Charts<br>
+All Trackers Combined
+</div>
+</div>
+
+<div class="card" onclick="location.href='pages/SETTINGS.html'">
+<div class="icon">⚙</div>
+<div class="title">Settings</div>
+<div class="desc">
+Backup & Restore<br>
+Install App<br>
+Storage
+</div>
+</div>
+
+</div>
+
+<div class="install-bar" id="installBar">
+  <div class="txt">Install Shelby Tracker on this device<small>Works offline once installed.</small></div>
+  <button id="installBtn">Install</button>
+</div>
+
+<div class="offline-pill" id="offlinePill">You're offline — showing cached data</div>
+
+<div class="footer">
+  <div class="line1">Shelby Company Ltd.</div>
+  <div class="credit">Developed by <span>YOGZ</span></div>
+</div>
+
+</div>
+
+<script>
+
+if("serviceWorker" in navigator){
+
+window.addEventListener("load",()=>{
+
+navigator.serviceWorker.register("sw.js");
+
+});
+
+}
+
+// ---------- INSTALL PROMPT ----------
+let deferredPrompt = null;
+const installBar = document.getElementById('installBar');
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBar.classList.add('show');
+});
+
+installBtn.addEventListener('click', async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBar.classList.remove('show');
+});
+
+window.addEventListener('appinstalled', () => {
+  installBar.classList.remove('show');
+});
+
+// ---------- OFFLINE INDICATOR ----------
+function updateOnlineStatus(){
+  document.getElementById('offlinePill').classList.toggle('show', !navigator.onLine);
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+updateOnlineStatus();
+
+</script>
+
+</body>
+</html>
